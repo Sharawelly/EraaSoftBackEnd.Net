@@ -98,6 +98,10 @@ while (!exit)
         case 'q':
             exit = true;
             break;
+            
+        default:
+             Console.WriteLine("Invalid option! please try again");
+             break;
 
 
 
