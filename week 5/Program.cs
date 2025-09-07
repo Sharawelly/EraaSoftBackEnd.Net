@@ -1,4 +1,4 @@
-﻿namespace week5
+namespace week5
 {
     public class Subject
     {
@@ -36,6 +36,13 @@
         {
             this.Exams.Add(exam);
         }
+
+        public void StartExam()
+        {
+            ExamStarted?.Invoke();
+        }
+
+        public event Action ExamStarted;
 
         public override string ToString()
         {
@@ -133,11 +140,7 @@
             }
         }
 
-         public void StartExam()
-            {
-            ExamStarted?.Invoke();
-        }
-        public event Action ExamStarted; 
+        
 
 
 
@@ -259,13 +262,14 @@
             subject.AssignStudent(s1);
             subject.AssignStudent(s2);
 
+            subject.ExamStarted += s1.NotifyStudent;
+            subject.ExamStarted += s2.NotifyStudent;
 
             // Create exam
             Exam exam = new Exam(1, subject, DateTime.Now.AddDays(7), 100, 0, "90", "Online");
             subject.AddExam(exam);
 
-            exam.ExamStarted += s1.NotifyStudent;
-            exam.ExamStarted += s2.NotifyStudent;
+           
 
             // ===== MENU LOOP =====
             while (true)
@@ -360,7 +364,7 @@
                     }
                     else if (instChoice == "3")
                     {
-                        exam.StartExam();
+                        subject.StartExam();
                         Console.WriteLine("Exam started and notifications sent to students.");
                     }
                 }
